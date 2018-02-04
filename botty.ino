@@ -45,6 +45,7 @@ void loop() {
 
 void listenStop() {
   if (digitalRead(stopButton) == 0) {
+    move(100, 0, 0, 0, 0);
     // halt program for 10 seconds
     tone(speaker, 800, 500);
     delay(10*1000);
@@ -55,7 +56,8 @@ void listenStop() {
 }
 
 void listenSpeedDial() {
-    speed = map(analogRead(speedDial), 0, 60, 1023, 250);
+    speed = 200;
+    //speed = map(analogRead(speedDial), 0, 60, 1023, 250);
 }
 
 void startMelody() {
@@ -82,18 +84,24 @@ void dance() {
   switch(state) {
     case 1:
       // forwards
+      tone(speaker, 440, 200);
       move(2000, speed, 0, speed, 0);
       break;
     case 2:
       // backwards
+      tone(speaker, 294, 200);
       move(2000, 0, speed, 0, speed);
       break;
     case 3:
       // turn left
+      tone(speaker, 523, 200);
+      delay(200);
+      tone(speaker, 523, 200);
       move(1000, 0, speed, speed, 0);
       break;
     case 4:
       // turn right
+      tone(speaker, 587, 200);
       move(1000, speed, 0, 0, speed);
       break;  
   }
