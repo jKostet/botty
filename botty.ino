@@ -9,7 +9,7 @@ int speedDial = 15;
 
 int speaker = 14;
 
-int speed = 100;
+int speed = 100; // min 60? max 254? USB vs 9V differs
 int state = 1;
 
 
@@ -30,13 +30,15 @@ void setup() {
   tone(speaker, 400, 200);
   delay(1000);
   startMelody();
-  
+
+  listenSpeedDial();
 }
 
 
 
 void loop() {
   listenStop();
+  listenSpeedDial();
   dance();
   
 }
@@ -50,6 +52,10 @@ void listenStop() {
     setup();
     //startMelody();
   }
+}
+
+void listenSpeedDial() {
+    speed = map(analogRead(speedDial), 0, 60, 1023, 250);
 }
 
 void startMelody() {
