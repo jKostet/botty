@@ -31,7 +31,7 @@ void setup() {
   delay(1000);
   startMelody();
 
-  listenSpeedDial();
+  //listenSpeedDial();
 }
 
 
@@ -43,21 +43,20 @@ void loop() {
   
 }
 
+// halt program for 10 seconds and restart
 void listenStop() {
   if (digitalRead(stopButton) == 0) {
-    move(100, 0, 0, 0, 0);
-    // halt program for 10 seconds
+    // stop motors
+    move(300, 0, 0, 0, 0);
     tone(speaker, 800, 500);
     delay(10*1000);
 
     setup();
-    //startMelody();
   }
 }
 
-void listenSpeedDial() {
-    speed = 200;
-    //speed = map(analogRead(speedDial), 0, 60, 1023, 250);
+void listenSpeedDial() { // value, pot min, pot max, speed min, speed max
+    speed = map(analogRead(speedDial), 1023, 0, 60, 250);
 }
 
 void startMelody() {
@@ -75,34 +74,44 @@ void move(int time, int lF, int lB, int rF, int rB) {
   analogWrite(rightMotorForward, rF);
   analogWrite(rightMotorBackward, rB);
   delay(time);
+
+  //Serial.begin(9600);
 }
 
 void dance() {
   listenStop();
-  
+  //Serial.println("stop\n");
+  //delay(2000);
   state = random(1,5);
+  //Serial.println(state);
   switch(state) {
     case 1:
       // forwards
-      tone(speaker, 440, 200);
+      //tone(speaker, 440, 200);
+      //tone(speaker, 0, 0);
+      //delay(100);
       move(2000, speed, 0, speed, 0);
+      move(100, 0, 0, 0 ,0);
       break;
     case 2:
       // backwards
-      tone(speaker, 294, 200);
+      //tone(speaker, 294, 200);
       move(2000, 0, speed, 0, speed);
+      move(100, 0, 0, 0 ,0);
       break;
     case 3:
       // turn left
-      tone(speaker, 523, 200);
-      delay(200);
-      tone(speaker, 523, 200);
+      //tone(speaker, 523, 200);
+      //delay(200);
+      //tone(speaker, 523, 200);
       move(1000, 0, speed, speed, 0);
+      move(100, 0, 0, 0 ,0);
       break;
     case 4:
       // turn right
-      tone(speaker, 587, 200);
+      //tone(speaker, 587, 200);
       move(1000, speed, 0, 0, speed);
+      move(100, 0, 0, 0 ,0);
       break;  
   }
 }
